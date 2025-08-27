@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Book struct
 type Book struct {
 	ID       string  `json:"id"`
 	Title    string  `json:"title"`
@@ -15,14 +14,12 @@ type Book struct {
 	Price    float64 `json:"price"`
 }
 
-// fake data
 var books = []Book{
 	{ID: "1", Title: "Go Programming", Author: "John Doe", Category: "Programming", Price: 500},
 	{ID: "2", Title: "Python for Data Science", Author: "Jane Smith", Category: "Data Science", Price: 650},
 	{ID: "3", Title: "Design Patterns", Author: "Gamma", Category: "Programming", Price: 700},
 }
 
-// ดึงหนังสือทั้งหมด หรือ filter ตาม category
 func getBooks(c *gin.Context) {
 	category := c.Query("category")
 
@@ -40,7 +37,6 @@ func getBooks(c *gin.Context) {
 	c.JSON(http.StatusOK, books)
 }
 
-// ดึงหนังสือตาม ID
 func getBookByID(c *gin.Context) {
 	id := c.Param("id")
 
@@ -56,16 +52,14 @@ func getBookByID(c *gin.Context) {
 func main() {
 	r := gin.Default()
 
-	// health check
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "healthy"})
 	})
 
-	// group API
 	api := r.Group("/api/v1")
 	{
-		api.GET("/books", getBooks)        // เส้นที่ 1
-		api.GET("/books/:id", getBookByID) // เส้นที่ 2
+		api.GET("/books", getBooks)
+		api.GET("/books/:id", getBookByID)
 	}
 
 	r.Run(":8080")
