@@ -37,11 +37,11 @@ var db *sql.DB
 func initDB() {
 	var err error
 
-	host := getEnv("DB_HOST", "")
-	name := getEnv("DB_NAME", "")
-	user := getEnv("DB_USER", "")
-	password := getEnv("DB_PASSWORD", "")
-	port := getEnv("DB_PORT", "")
+	host := getEnv("DB_HOST", "localhost")
+	port := getEnv("DB_PORT", "5432")
+	user := getEnv("DB_USER", "bookstore_user")
+	password := getEnv("DB_PASSWORD", "your_strong_password")
+	name := getEnv("DB_NAME", "bookstore")
 
 	conSt := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, name)
 	//fmt.Println(conSt)
