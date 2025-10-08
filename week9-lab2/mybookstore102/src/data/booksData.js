@@ -1,5 +1,4 @@
 // Sample book data for the bookstore
-
 export const booksData = [
   {
     id: 1,

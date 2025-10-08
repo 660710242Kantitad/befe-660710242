@@ -50,27 +50,27 @@ const HomePage = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-viridian-600 to-green-700 text-white bg-green-500">
+      <section className="relative bg-gradient-to-r from-viridian-600 bg-green-700 text-white">
         <div className="container mx-auto px-4 py-24">
           <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in  ">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">
               ยินดีต้อนรับสู่ <span className="text-yellow-300">BookStore</span>
             </h1>
-            <p className="text-xl mb-8 opacity-90 ">
+            <p className="text-xl mb-8 opacity-90">
               ค้นพบหนังสือที่คุณรัก จากคอลเล็กชันมากกว่า 10,000 เล่ม
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/books" 
                 className="inline-flex items-center justify-center px-8 py-3 bg-white 
                 text-viridian-600 font-semibold rounded-lg hover:bg-gray-100 
-                transform hover:scale-105 transition-all duration-200 text-green-400">
+                transform hover:scale-105 transition-all duration-200">
                 เลือกซื้อหนังสือ
                 <ArrowRightIcon className="ml-2 h-5 w-5" />
               </Link>
               <Link to="/categories" 
                 className="inline-flex items-center justify-center px-8 py-3 
                 border-2 border-white text-white font-semibold rounded-lg 
-                hover:bg-white hover:text-viridian-600 transition-all duration-200 text-green-400">
+                hover:bg-white hover:text-viridian-600 transition-all duration-200">
                 ดูหมวดหมู่ทั้งหมด
               </Link>
             </div>
@@ -91,8 +91,8 @@ const HomePage = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center group">
-              <div className="bg-blue-100 p-4 rounded-full w-20 h-20 mx-auto mb-4 
-                group-hover:bg-blue-200 transition-colors">
+              <div className="bg-viridian-100 p-4 rounded-full w-20 h-20 mx-auto mb-4 
+                group-hover:bg-viridian-200 transition-colors">
                 <TruckIcon className="h-12 w-12 text-viridian-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2">จัดส่งฟรี</h3>
@@ -163,7 +163,7 @@ const HomePage = () => {
       </section>
 
       {/* Newsletter */}
-      <section className="py-16 bg-green-600">
+      <section className="py-16 bg-viridian-600">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
             รับข่าวสารและโปรโมชั่นล่าสุด
