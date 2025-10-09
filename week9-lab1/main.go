@@ -143,33 +143,58 @@ func createBook(c *gin.Context) {
 }
 
 func updateBook(c *gin.Context) {
-	var ID int
-	id := c.Param("id")
-	var updateBook Book
+	// แปลง id จาก string เป็น int
+	idParam := c.Param("id")
+	var bookID int
+	_, err := fmt.Sscanf(idParam, "%d", &bookID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid book ID"})
+		return
+	}
 
+	var updateBook Book
 	if err := c.ShouldBindJSON(&updateBook); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	// ลองอัปเดต
 	var updatedAt time.Time
-	err := db.QueryRow(
+	result := db.QueryRow(
 		`UPDATE books
-         SET title = $1, author = $2, isbn = $3, year = $4, price = $5
-         WHERE id = $6
-         RETURNING ID,updated_at`,
+		 SET title = $1, author = $2, isbn = $3, year = $4, price = $5, updated_at = NOW()
+		 WHERE id = $6
+		 RETURNING updated_at`,
 		updateBook.Title, updateBook.Author, updateBook.ISBN,
-		updateBook.Year, updateBook.Price, id,
-	).Scan(&ID, &updatedAt)
+		updateBook.Year, updateBook.Price, bookID,
+	)
 
+	err = result.Scan(&updatedAt)
 	if err == sql.ErrNoRows {
-		c.JSON(http.StatusNotFound, gin.H{"error": "book not found"})
+		// ถ้าไม่มีข้อมูล ให้ insert แทน (Upsert)
+		err = db.QueryRow(
+			`INSERT INTO books (id, title, author, isbn, year, price)
+			 VALUES ($1, $2, $3, $4, $5, $6)
+			 RETURNING created_at, updated_at`,
+			bookID, updateBook.Title, updateBook.Author, updateBook.ISBN,
+			updateBook.Year, updateBook.Price,
+		).Scan(&updateBook.CreatedAt, &updatedAt)
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		updateBook.ID = bookID
+		updateBook.UpdatedAt = updatedAt
+		c.JSON(http.StatusCreated, updateBook)
 		return
 	} else if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	updateBook.ID = ID
+
+	updateBook.ID = bookID
 	updateBook.UpdatedAt = updatedAt
 	c.JSON(http.StatusOK, updateBook)
 }
