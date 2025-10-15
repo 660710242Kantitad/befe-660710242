@@ -94,9 +94,16 @@ const Navbar = () => {
               )}
             </button>
             
-            <button className="p-2 text-gray-600 hover:text-viridian-600 transition-colors">
+            <NavLink 
+              to="/login" 
+              className={({ isActive }) => 
+                `text-gray-700 hover:text-viridian-600 transition-colors font-medium ${
+                  isActive ? 'text-viridian-600 border-b-2 border-viridian-600' : ''
+                }`
+              }
+            >
               <UserIcon className="h-6 w-6" />
-            </button>
+            </NavLink>
 
             {/* Mobile Menu Toggle */}
             <button 
