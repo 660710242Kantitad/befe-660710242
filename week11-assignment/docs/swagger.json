@@ -1,32 +1,29 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a simple example API using Gin + Swagger",
-        "title": "Simple Book API",
+        "description": "This is a simple example of using Gin with Swagger.",
+        "title": "Simple API Example",
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "127.0.0.1:8080",
     "basePath": "/api/v1",
     "paths": {
         "/books": {
             "get": {
-                "description": "Get details of all books",
+                "description": "Get details of a book by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Books"
                 ],
-                "summary": "Get all books",
+                "summary": "Get all book",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/main.Book"
-                            }
+                            "$ref": "#/definitions/main.Book"
                         }
                     },
                     "404": {
@@ -36,22 +33,21 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/books/": {
             "post": {
-                "description": "Add a new book record",
-                "consumes": [
-                    "application/json"
-                ],
+                "description": "post new book",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Books"
                 ],
-                "summary": "Create a new book",
+                "summary": "Post book",
                 "parameters": [
                     {
-                        "description": "Book data",
+                        "description": "Book JSON",
                         "name": "book",
                         "in": "body",
                         "required": true,
@@ -61,14 +57,14 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/main.Book"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/main.ErrorResponse"
                         }
@@ -76,50 +72,21 @@
                 }
             }
         },
-        "/books/new": {
+        "/books/{category}": {
             "get": {
-                "description": "Get the 5 most recently created books",
+                "description": "Get details of a book by Category",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Books"
                 ],
-                "summary": "Get latest 5 books",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/main.Book"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/books/{id}": {
-            "get": {
-                "description": "Get details of a book by its ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Books"
-                ],
-                "summary": "Get book by ID",
+                "summary": "Get book by Category",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Book ID",
-                        "name": "id",
+                        "description": "Book Category",
+                        "name": "category",
                         "in": "path",
                         "required": true
                     }
@@ -138,19 +105,18 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/books/{id}": {
             "put": {
-                "description": "Update existing book details",
-                "consumes": [
-                    "application/json"
-                ],
+                "description": "update details of a book by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Books"
                 ],
-                "summary": "Update book by ID",
+                "summary": "update book by ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -160,7 +126,7 @@
                         "required": true
                     },
                     {
-                        "description": "Updated book data",
+                        "description": "Book JSON",
                         "name": "book",
                         "in": "body",
                         "required": true,
@@ -185,7 +151,7 @@
                 }
             },
             "delete": {
-                "description": "Delete a book record",
+                "description": "Delete details of a book by ID",
                 "produces": [
                     "application/json"
                 ],
@@ -206,10 +172,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/main.Book"
                         }
                     },
                     "404": {
@@ -229,17 +192,51 @@
                 "author": {
                     "type": "string"
                 },
+                "category": {
+                    "description": "ฟิลด์ใหม่",
+                    "type": "string"
+                },
+                "cover_image": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "discount": {
+                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
                 },
+                "is_new": {
+                    "type": "boolean"
+                },
                 "isbn": {
                     "type": "string"
                 },
+                "language": {
+                    "type": "string"
+                },
+                "original_price": {
+                    "type": "number"
+                },
+                "pages": {
+                    "type": "integer"
+                },
                 "price": {
                     "type": "number"
+                },
+                "publisher": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                },
+                "reviews_count": {
+                    "type": "integer"
                 },
                 "title": {
                     "type": "string"

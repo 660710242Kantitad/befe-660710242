@@ -4,14 +4,37 @@ definitions:
     properties:
       author:
         type: string
+      category:
+        description: ฟิลด์ใหม่
+        type: string
+      cover_image:
+        type: string
       created_at:
         type: string
+      description:
+        type: string
+      discount:
+        type: integer
       id:
         type: integer
+      is_new:
+        type: boolean
       isbn:
         type: string
+      language:
+        type: string
+      original_price:
+        type: number
+      pages:
+        type: integer
       price:
         type: number
+      publisher:
+        type: string
+      rating:
+        type: number
+      reviews_count:
+        type: integer
       title:
         type: string
       updated_at:
@@ -24,38 +47,35 @@ definitions:
       message:
         type: string
     type: object
-host: localhost:8080
+host: 127.0.0.1:8080
 info:
   contact: {}
-  description: This is a simple example API using Gin + Swagger
-  title: Simple Book API
+  description: This is a simple example of using Gin with Swagger.
+  title: Simple API Example
   version: "1.0"
 paths:
   /books:
     get:
-      description: Get details of all books
+      description: Get details of a book by ID
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/main.Book'
-            type: array
+            $ref: '#/definitions/main.Book'
         "404":
           description: Not Found
           schema:
             $ref: '#/definitions/main.ErrorResponse'
-      summary: Get all books
+      summary: Get all book
       tags:
       - Books
+  /books/:
     post:
-      consumes:
-      - application/json
-      description: Add a new book record
+      description: post new book
       parameters:
-      - description: Book data
+      - description: Book JSON
         in: body
         name: book
         required: true
@@ -64,20 +84,43 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             $ref: '#/definitions/main.Book'
-        "400":
-          description: Bad Request
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/main.ErrorResponse'
-      summary: Create a new book
+      summary: Post book
+      tags:
+      - Books
+  /books/{category}:
+    get:
+      description: Get details of a book by Category
+      parameters:
+      - description: Book Category
+        in: path
+        name: category
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Book'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: Get book by Category
       tags:
       - Books
   /books/{id}:
     delete:
-      description: Delete a book record
+      description: Delete details of a book by ID
       parameters:
       - description: Book ID
         in: path
@@ -90,9 +133,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/main.Book'
         "404":
           description: Not Found
           schema:
@@ -100,39 +141,15 @@ paths:
       summary: Delete book by ID
       tags:
       - Books
-    get:
-      description: Get details of a book by its ID
-      parameters:
-      - description: Book ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/main.Book'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/main.ErrorResponse'
-      summary: Get book by ID
-      tags:
-      - Books
     put:
-      consumes:
-      - application/json
-      description: Update existing book details
+      description: update details of a book by ID
       parameters:
       - description: Book ID
         in: path
         name: id
         required: true
         type: integer
-      - description: Updated book data
+      - description: Book JSON
         in: body
         name: book
         required: true
@@ -149,26 +166,7 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/main.ErrorResponse'
-      summary: Update book by ID
-      tags:
-      - Books
-  /books/new:
-    get:
-      description: Get the 5 most recently created books
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/main.Book'
-            type: array
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/main.ErrorResponse'
-      summary: Get latest 5 books
+      summary: update book by ID
       tags:
       - Books
 swagger: "2.0"
